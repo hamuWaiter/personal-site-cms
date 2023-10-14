@@ -1,0 +1,6 @@
+# tsserver helper
+types/
+shared.d.ts
+
+node_modules/
+
