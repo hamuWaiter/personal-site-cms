@@ -7,13 +7,20 @@
     "dev": "node ../node_modules/vite/bin/vite.js",
     "build": "node ../node_modules/vite/bin/vite.js build",
     "preview": "node ../node_modules/vite/bin/vite.js preview",
+    "deploy": "pnpm install",
     "start": "vite"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "axios": "^1.7.2",
+    "element-plus": "^2.7.4",
+    "vue": "^3.3.4",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@types/node": "^20.14.2",
     "@vitejs/plugin-vue": "^4.2.3",
+    "dotenv": "^16.4.5",
+    "sass": "^1.77.4",
     "vite": "^4.4.5"
   }
 }
