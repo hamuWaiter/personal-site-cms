@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-	import axios from '../../network'
+	import axios from '@/network'
 	import { useRouter } from 'vue-router'
 	import { onMounted, reactive, ref, computed } from 'vue'
 
@@ -72,7 +72,10 @@
 	}
 
 	const init = async () => {
-		data.value = await axios.get('/sites')
+		data.value = await axios.get('/sites', {
+			page: 1,
+			pageSize: 10
+		})
 	}
 
 	onMounted(() => {

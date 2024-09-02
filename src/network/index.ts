@@ -1,18 +1,38 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ENV } from './config';
 
-const api = axios.create({
-  baseURL: ENV.local
-});
+class Request {
+  public api: AxiosInstance;
 
-// 添加响应拦截器
-api.interceptors.response.use(
-  response => {
-    return response.data;
-  },
-  error => {
-    return Promise.reject(error);
+  constructor(baseURL: string) {
+    this.api = axios.create({
+      baseURL
+    });
+
+    // 添加响应拦截器
+    this.api.interceptors.response.use(
+      response => {
+        return response.data;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
   }
-);
 
-export default api;
+  get(url: string, params: any) {
+    return this.api.get(url, {
+      params
+    });
+  }
+
+  post(url: string, params: any) {
+    return this.api.post(url, params);
+  }
+
+  static create(baseURL: string) {
+    return new Request(baseURL);
+  }
+};
+
+export default Request.create(ENV.local);

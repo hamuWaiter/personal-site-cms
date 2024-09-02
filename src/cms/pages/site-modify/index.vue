@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-	import axios from '../../network'
+	import axios from '@/network'
 	import { useRoute, useRouter } from 'vue-router'
 	import { onMounted, reactive, computed } from 'vue'
 
@@ -37,16 +37,17 @@
 	onMounted(async () => {
 		if (id.value) {
 			const res = await axios.get(`/site/${id.value}`)
-			console.log(form.current)
-			form.current = {...form.current, ... res}
-			console.log(form.current)
+			form.current.url = res.url;
+			form.current.title = res.title;
+			// form.current = {...form.current, ... res}
 		}
 	})
 
 	const onSubmit = async () => {
 		try {
-			if (Object.values(form.current).every(item => item)) {
+			console.log(form.current);
 
+			if (Object.values(form.current).every(item => item)) {
 				const res = await (id.value ? axios.post(`/site/${id.value}`, form.current) : axios.post('/site', form.current))
 				
 				router.push('/admin/site')

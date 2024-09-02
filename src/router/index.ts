@@ -1,14 +1,43 @@
 import { h } from 'vue'
 import { createWebHistory, createRouter } from 'vue-router'
-import { Home } from '../pages';
-import { SiteList, SiteModify } from '../cms';
+import FrontEnd from '../frontend/index.vue';
+import Admin from '../cms/index.vue';
+import { Home } from '../frontend/pages';
+import { SiteList, SiteModify } from '../cms/pages';
 
 const routes = [
-  { path: '/', redirect: '/admin' },
-  { path: '/home', component: Home },
-  { path: '/admin/site', component: SiteList },
-  { path: '/admin/site/add', component: SiteModify },
-  { path: '/admin/site/:id', component: SiteModify },
+  // 前端系列页面
+  {
+    path: '/',
+    component: FrontEnd,
+    redirect: 'home',
+    children: [{
+      path: 'home',
+      component: Home
+    }]
+  },
+
+  
+  // 管理端系列页面
+  {
+    path: '/admin',
+    component: Admin,
+    redirect: 'site',
+    children: [
+      {
+        path: 'site',
+        component: SiteList
+      },
+      {
+        path: 'site/add',
+        component: SiteModify
+      },
+      {
+        path: 'site/:id',
+        component: SiteModify
+      },
+    ]
+  },
   { path: '/:catchAll(.*)', component: () => h('span', "什么都没找到0_0") },
 ]
 
