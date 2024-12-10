@@ -1,3 +1,4 @@
+import Uploader from './uploader/index.vue';
 import MDPreviewV3 from './md-preview-v3/index.vue';
 
-export { MDPreviewV3 };
+export { Uploader, MDPreviewV3 };

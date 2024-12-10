@@ -11,6 +11,7 @@
         更新时间：{{ dayjs(item.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
       </div>
     </div>
+    <Uploader />
   </div>
 </template>
 
@@ -19,6 +20,8 @@ import dayjs from "dayjs";
 import axios from "@/network";
 import { onMounted, reactive, ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { Uploader } from '../../components';
+
 const router = useRouter();
 const handleClick = (item) => {
   router.push({
