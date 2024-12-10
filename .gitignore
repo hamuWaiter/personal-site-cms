@@ -1,6 +1,22 @@
-# tsserver helper
-types/
-shared.d.ts
-
+# Node.js
 node_modules/
+package-lock.json
+
+# Build
+build/
 dist/
+out/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Cache
+*.cache/
+*.tgz
+
+# Other
+.DS_Store
+Thumbs.db

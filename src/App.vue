@@ -1,5 +1,5 @@
 <template>
-	<div class="app">
+	<div class="appView">
 		<router-view></router-view>
 	</div>
 </template>
@@ -8,7 +8,7 @@
 </script>
 
 <style>
-.app {
+.appView {
 	color: #333;
 	padding: 20px;
 }

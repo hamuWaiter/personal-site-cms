@@ -1,9 +1,9 @@
-import { h } from 'vue'
-import { createWebHistory, createRouter } from 'vue-router'
+import { h } from 'vue';
+import { createWebHistory, createRouter } from 'vue-router';
 import FrontEnd from '../frontend/index.vue';
 import Admin from '../cms/index.vue';
-import { Home } from '../frontend/pages';
-import { SiteList, SiteModify } from '../cms/pages';
+import { Blog, Home } from '../frontend/pages';
+import { BlogList, BlogModify, SiteList, SiteModify } from '../cms/pages';
 
 const routes = [
   // 前端系列页面
@@ -11,13 +11,19 @@ const routes = [
     path: '/',
     component: FrontEnd,
     redirect: 'home',
-    children: [{
-      path: 'home',
-      component: Home
-    }]
+    children: [
+      {
+        path: 'home',
+        component: Home
+      },
+      {
+        path: 'blog',
+        component: Blog
+      }
+    ]
   },
 
-  
+
   // 管理端系列页面
   {
     path: '/admin',
@@ -35,6 +41,18 @@ const routes = [
       {
         path: 'site/:id',
         component: SiteModify
+      },
+      {
+        path: 'blog',
+        component: BlogList
+      },
+      {
+        path: 'blog/add',
+        component: BlogModify
+      },
+      {
+        path: 'blog/:id',
+        component: BlogModify
       },
     ]
   },
