@@ -2,7 +2,7 @@
   <el-upload
       class="upload-demo"
       drag
-      action="/api/common/upload"
+      action="/static-api/common/upload"
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">

@@ -15,7 +15,13 @@ export default defineConfig({
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },
-    }
+      '/static-api': {
+        // target: 'http://localhost:4000',
+        target: 'http://static-server.mingyueforever.cn/',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    },
   },
   resolve: {
     alias: {
