@@ -11,7 +11,7 @@
         更新时间：{{ dayjs(item.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
       </div>
     </div>
-    <Uploader />
+    <Uploader @complete="handleComplete" />
   </div>
 </template>
 
@@ -31,6 +31,8 @@ const handleClick = (item) => {
     },
   });
 };
+
+const handleComplete = () => {};
 
 const data = ref(null);
 const renderData = computed(() => data.value);

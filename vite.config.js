@@ -16,8 +16,8 @@ export default defineConfig({
         // rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/static-api': {
-        // target: 'http://localhost:4000',
-        target: 'http://static-server.mingyueforever.cn/',
+        target: 'http://localhost:4000',
+        // target: 'http://static-server.mingyueforever.cn/',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, '')
       },

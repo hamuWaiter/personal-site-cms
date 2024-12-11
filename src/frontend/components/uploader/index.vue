@@ -1,9 +1,13 @@
 <template>
   <el-upload
-      class="upload-demo"
-      drag
-      action="/static-api/common/upload"
+    drag
+    multiple
+    class="upload-demo"
+    @before-upload="beforeUpload"
+    action="/static-api/common/upload"
+    @success="handleSuccess"
   >
+<!--    action="http://static-server.mingyueforever.cn/static-api/common/upload"-->
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
       Drop file here or <em>click to upload</em>
@@ -17,5 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { UploadFilled } from '@element-plus/icons-vue'
+import { UploadFilled } from '@element-plus/icons-vue';
+
+const emits = defineEmits(['complete']);
+
+const handleSuccess = (res: any) => {
+  emits('complete', res);
+}
+
+const beforeUpload = (res) => {
+  console.log(res);
+}
 </script>
