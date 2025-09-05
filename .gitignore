@@ -1,12 +1,14 @@
 # Node.js
 node_modules/
-package-lock.json
 
 # Build
 build/
 dist/
 out/
 *.log
+
+# 忽略 stats.html 文件
+stats.html
 
 # IDE
 .vscode/

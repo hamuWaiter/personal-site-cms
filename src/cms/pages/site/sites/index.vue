@@ -1,5 +1,5 @@
 <template>
-  <div class="site-list">
+  <div class="sites">
     <el-table
       border
       stripe
@@ -91,7 +91,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.site-list {
+.sites {
   text-align: center;
 
   .title {

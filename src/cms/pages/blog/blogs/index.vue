@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-list">
+  <div class="blogs">
     <el-table
       border
       stripe
@@ -12,15 +12,23 @@
       <el-table-column #default="scope" label="更新时间">
         <span>{{ new Date(scope.row.updateTime).toLocaleString() }}</span>
       </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="180">
+      <el-table-column fixed="right" label="操作" width="180">
         <template #default="scope">
           <el-button
             link
             type="primary"
             size="small"
-            @click.prevent="() => $router.push(`/admin/blog/${scope.row.id}`)"
+            @click.prevent="() => $router.push(`/blog/${scope.row.id}/edit`)"
           >
             修改
+          </el-button>
+          <el-button
+              link
+              type="primary"
+              size="small"
+              @click.prevent="() => $router.push(`/blog/${scope.row.id}`)"
+          >
+            预览
           </el-button>
           <template v-if="scope.row.isDelete">
             <el-button
@@ -29,7 +37,7 @@
               size="small"
               @click.prevent="modifyRow({ ...scope.row, isDelete: false })"
             >
-              启用
+              发布
             </el-button>
           </template>
           <template v-else>
@@ -39,35 +47,48 @@
               size="small"
               @click.prevent="modifyRow({ ...scope.row, isDelete: true })"
             >
-              禁用
+              撤回
             </el-button>
           </template>
         </template>
       </el-table-column>
     </el-table>
+
+    <div class="actions">
+      <el-button type="primary" :icon="Edit" circle @click="() => $router.push('/blog/0/edit')" />
+      <el-button type="primary" @click="() => dialogVisible = true">上传本地文档</el-button>
+      <el-button type="primary" @click="() => {}">填写在线链接</el-button>
+    </div>
+
+    <el-dialog
+      v-model="dialogVisible"
+      title="上传"
+      width="500"
+    >
+      <Uploader @complete="handleComplete"/>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-// import axios from '@/network/index.js'
-import axios from "../../.././../network";
-import { useRouter } from "vue-router";
+import axios from "@/network";
+import { Uploader } from '@/components';
+import { Edit } from "@element-plus/icons-vue";
 import { onMounted, reactive, ref, computed } from "vue";
+
+const dialogVisible = ref(false);
 
 const data = ref(null);
 const renderData = computed(() => data.value);
 
-// 是否显示 debug btn
-const form = reactive({
-  current: {
-    title: "",
-    url: "",
-  },
-});
+const handleComplete = () => {
+  dialogVisible.value = false;
+  init();
+};
 
 const modifyRow = async (row) => {
   await axios.post(`/blog/${row.id}`, row);
-  init();
+  await init();
 };
 
 const init = async () => {
@@ -83,7 +104,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.blog-list {
+.blogs {
   text-align: center;
 
   .title {
@@ -98,6 +119,11 @@ onMounted(() => {
     padding: 20px;
     border-radius: 6px;
     background-color: #f1f1f1;
+  }
+
+  .actions {
+    margin: 10px 0;
+    text-align: right;
   }
 }
 </style>

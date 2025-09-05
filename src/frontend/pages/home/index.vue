@@ -6,12 +6,11 @@
       v-for="(item, i) in data"
       :key="i"
     >
-      <div class="title">{{ item.title }}</div>
+      <div class="title">{{ item.title.replace(/\.[a-zA-Z]+/g, '') }}</div>
       <div class="con">
         更新时间：{{ dayjs(item.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
       </div>
     </div>
-    <Uploader @complete="handleComplete" />
   </div>
 </template>
 
@@ -20,25 +19,17 @@ import dayjs from "dayjs";
 import axios from "@/network";
 import { onMounted, reactive, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { Uploader } from '../../components';
 
 const router = useRouter();
 const handleClick = (item) => {
   router.push({
-    path: "/blog",
-    query: {
-      file: item.url,
-    },
+    path: `/blog/${item.id}`,
   });
 };
-
-const handleComplete = () => {};
-
 const data = ref(null);
-const renderData = computed(() => data.value);
 
 const init = async () => {
-  data.value = await axios.get("/blog", {
+  data.value = await axios.get("/blog/blog4show", {
     page: 1,
     pageSize: 10,
   });
@@ -52,13 +43,14 @@ onMounted(() => {
 <style scoped lang="scss">
 .home {
   border-radius: 10px;
-  overflow: hidden;
   line-height: 2em;
   cursor: pointer;
 
   .item {
     padding: 20px;
-    background: #f1f1f1;
+    background: #fefefe;
+    border-radius: 10px;
+    box-shadow: 4px 4px 20px rgba(0,0,0,.1);
     margin-bottom: 20px;
 
     .title {

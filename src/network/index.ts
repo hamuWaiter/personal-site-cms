@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { ENV } from './config';
 
 class Request {
   public api: AxiosInstance;
@@ -35,4 +34,4 @@ class Request {
   }
 };
 
-export default Request.create(ENV.local);
+export default Request.create('/api');
