@@ -1,3 +1,4 @@
+import { ElMessage } from "element-plus";
 import axios, { AxiosInstance } from 'axios';
 
 class Request {
@@ -13,7 +14,23 @@ class Request {
       response => {
         return response.data;
       },
-      error => {
+    error => {
+      const { statusCode, message } = error.response.data;
+
+        switch (statusCode) {
+          case 401:
+            ElMessage.error(message || '无接口权限');
+            break;
+          case 404:
+            ElMessage.error(message || '资源未找到');
+            break;
+          case 500:
+            ElMessage.error(message || '服务繁忙，请稍后重试');
+            break;
+          default:
+            ElMessage.error(message || '请求失败');
+        }
+
         return Promise.reject(error);
       }
     );
