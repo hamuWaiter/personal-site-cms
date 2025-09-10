@@ -14,7 +14,7 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
+        {{ props.tips }}
       </div>
     </template>
   </el-upload>
@@ -25,6 +25,12 @@ import { ElMessage } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue';
 
 const emits = defineEmits(['complete']);
+const props = defineProps({
+  tips: {
+    type: String,
+    default: 'jpg/png files with a size less than 500kb'
+  }
+});
 
 const handleSuccess = (res: any) => {
   toastMessage('上传成功', 'success');

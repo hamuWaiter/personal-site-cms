@@ -1,4 +1,4 @@
 import Blog from './blog/index.vue';
-import BlogEdit from './blog-edit/index.vue';
+import BlogEditor from './blog-editor/index.vue';
 
-export { Blog, BlogEdit }
+export { Blog, BlogEditor }

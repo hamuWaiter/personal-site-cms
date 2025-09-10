@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 import FrontEnd from '../frontend/index.vue';
 import Admin from '../cms/index.vue';
 import { Home } from '../frontend/pages';
-import { Blog, BlogEdit } from '../pages';
+import { Blog, BlogEditor } from '../pages';
 import { Blogs, Sites } from '../cms/pages';
 
 const routes = [
@@ -27,16 +27,21 @@ const routes = [
   },
   {
     path: '/blog/:id/edit',
-    component: BlogEdit
+    component: BlogEditor
+  },
+  {
+    path: '/blog/new',
+    component: BlogEditor
   },
 
   // 管理端系列页面
   {
     path: '/admin',
     component: Admin,
+    redirect: '/admin/blogs',
     children: [
       {
-        path: 'site',
+        path: 'sites',
         component: Sites
       },
       {

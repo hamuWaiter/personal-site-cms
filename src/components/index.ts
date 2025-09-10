@@ -1,5 +1,6 @@
 import Uploader from './uploader/index.vue';
 import MDPreviewV3 from './md-preview-v3/index.vue';
 import MdEditorV3 from './md-editor/index.vue'
+import NotFound from './not-found/index.vue';
 
-export { Uploader, MDPreviewV3, MdEditorV3 };
+export { Uploader, MDPreviewV3, MdEditorV3, NotFound };

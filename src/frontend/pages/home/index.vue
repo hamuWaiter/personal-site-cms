@@ -6,7 +6,7 @@
       v-for="(item, i) in data"
       :key="i"
     >
-      <div class="title">{{ item.title.replace(/\.[a-zA-Z]+/g, '') }}</div>
+      <div class="title">{{ item.title }}</div>
       <div class="con">
         更新时间：{{ dayjs(item.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
       </div>
@@ -29,10 +29,12 @@ const handleClick = (item) => {
 const data = ref(null);
 
 const init = async () => {
-  data.value = await axios.get("/blog/blog4show", {
+  const res = await axios.get("/blog/blog4show", {
     page: 1,
     pageSize: 10,
   });
+
+  data.value = res.data;
 };
 
 onMounted(() => {
