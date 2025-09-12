@@ -1,8 +1,8 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { visualizer } from 'rollup-plugin-visualizer'
-import viteCDNImport from 'vite-plugin-cdn-import'
+import path from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import { visualizer } from 'rollup-plugin-visualizer';
+import viteCDNImport from 'vite-plugin-cdn-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -38,7 +38,8 @@ export default defineConfig({
         // MD Editor
         {
           name: 'md-editor-v3',
-          var: 'MdEditor',
+          // var决定了最终打包的js中，引用md-editor-v3的变量名。需要与CDN提供的全局变量名一致
+          var: 'MdEditorV3',
           path: 'https://unpkg.com/md-editor-v3@5.8.4/lib/umd/index.js',
           css: 'https://unpkg.com/md-editor-v3@5.8.4/lib/style.css'
         },
