@@ -1,42 +1,39 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/global.css">
-    <title>琴石鸣乐</title>
-    <style>
-      .qsmy {}
-
-      .qsmy_body {
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="/stone.png" type="image/x-icon" />
+		<link rel="stylesheet" href="/global.css" />
+		<title>琴石鸣乐</title>
+		<style>
+			#app {
 				min-height: calc(100vh - 40px);
 			}
 
-      .qsmy_footer {
-        box-sizing: border-box;
-        flex-shrink: 0;
-        width: 100%;
-        color: #666;
+			.footer {
+				box-sizing: border-box;
+				flex-shrink: 0;
+				width: 100%;
+				color: #666;
 				line-height: 40px;
-        text-align: center;
-        background: #f1f1f1;
-      }
+				text-align: center;
+				background: #f1f1f1;
+			}
 
-      .qsmy_footer>a {
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="qsmy">
-      <div class="qsmy_body"><div id="app"></div></div>
-    
-      <div class="qsmy_footer">
-        <span>备案号：</span>
-        <a href="https://beian.miit.gov.cn/" target="_blank">渝ICP备2024038901号-1</a>
-      </div>
-    </div>
+			.footer > a {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app"></div>
 
-    <script type="module" src="/src/main.js"></script>
-  </body>
+		<div class="footer">
+			<span>备案号：</span>
+			<a href="https://beian.miit.gov.cn/" target="_blank">渝ICP备2024038901号-1</a>
+		</div>
+
+		<script type="module" src="/src/main.js"></script>
+	</body>
 </html>

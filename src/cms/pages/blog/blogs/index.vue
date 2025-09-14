@@ -3,25 +3,44 @@
 		<div class="actions">
 			<el-button type="primary" :icon="Edit" circle @click="() => $router.push('/blog/new')" />
 			<!-- <el-button type="primary" @click="() => (uploadDialogVisible = true)">上传本地文档</el-button> -->
-			<el-button type="primary" @click="() => (formDialogVisible = true)">填写在线链接</el-button>
+			<el-button
+				type="primary"
+				@click="
+					() => {
+						formDialogVisible = true;
+						renderData.form.url = '';
+						renderData.form.title = '';
+					}
+				"
+			>
+				填写在线链接
+			</el-button>
 		</div>
 
 		<el-form status-icon ref="tableFormRef" :model="renderData.form" :rules="rules">
-			<el-table border stripe style="width: 100%" pagination max-height="500" :data="renderData.value" :row-class-name="tableRowClassName">
+			<el-table border style="width: 100%" pagination max-height="500" :data="renderData.value" :row-class-name="tableRowClassName">
+				<el-table-column #default="scope" fixed="left" :label="null" width="80" align="center">
+					<template v-if="modify && activeKey === scope.$index">
+						<el-button type="warning" circle size="small" @click="() => handleEditEnd(scope)" :icon="Promotion" />
+					</template>
+					<template v-else>
+						<el-button link type="warning" size="large" @click="() => handleStartEdit(scope)" :icon="Edit" />
+					</template>
+				</el-table-column>
 				<el-table-column label="标题" #default="scope">
 					<template v-if="modify && activeKey === scope.$index">
 						<el-form-item :label="null" prop="title">
-							<el-input v-model.trim="renderData.form.title" />
+							<el-input v-model.trim="renderData.form.title" @blur="handleEditEnd(scope)" />
 						</el-form-item>
 					</template>
 					<template v-else>
-						<span>{{ scope.row.title }}</span>
+						<el-button link type="primary" @click.prevent="() => $router.push(`/blog/${scope.row.id}?home=/admin`)">{{ scope.row.title }}</el-button>
 					</template>
 				</el-table-column>
 				<el-table-column label="原始文档地址" #default="scope">
 					<template v-if="modify && activeKey === scope.$index">
 						<el-form-item :label="null" prop="url">
-							<el-input v-model.trim="renderData.form.url" />
+							<el-input v-model.trim="renderData.form.url" @blur="handleEditEnd(scope)" />
 						</el-form-item>
 					</template>
 					<template v-else>
@@ -35,22 +54,15 @@
 					<template #default="scope">
 						<div class="table-actions">
 							<el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}/edit`)">编辑</el-button>
-							<el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}`)">预览</el-button>
+							<!-- <el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}`)">预览</el-button> -->
 							<template v-if="scope.row.isDelete">
 								<el-button link type="primary" size="small" @click.prevent="modifyRow({ ...scope.row, isDelete: false })">发布</el-button>
 							</template>
 							<template v-else>
 								<el-button link type="danger" size="small" @click.prevent="modifyRow({ ...scope.row, isDelete: true })">撤回</el-button>
 							</template>
+							<!-- <el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}/edit`)">置顶</el-button> -->
 						</div>
-					</template>
-				</el-table-column>
-				<el-table-column #default="scope" fixed="left" :label="null" width="80" align="center">
-					<template v-if="modify && activeKey === scope.$index">
-						<el-button type="warning" circle size="small" @click="() => startEdit(scope)" :icon="Promotion" />
-					</template>
-					<template v-else>
-						<el-button link type="primary" size="large" @click="() => startEdit(scope)" :icon="Edit" />
 					</template>
 				</el-table-column>
 			</el-table>
@@ -90,7 +102,21 @@
 							文档地址:
 						</div>
 					</template>
-					<el-input v-model.trim="renderData.form.url" />
+					<div class="form-item-content">
+						<el-input v-model.trim="renderData.form.url" />
+						<el-tooltip class="box-item" effect="dark" content="点击自动填入标题" placement="top">
+							<el-button
+								:icon="Refresh"
+								type="primary"
+								@click="
+									() => {
+										const title = renderData.form.url.split('/').pop()?.replace('.md', '') ?? '';
+										if (title) renderData.form.title = title;
+									}
+								"
+							/>
+						</el-tooltip>
+					</div>
 				</el-form-item>
 			</el-form>
 			<div class="button-wrapper">
@@ -106,9 +132,9 @@
 import dayjs from 'dayjs';
 import axios from '@/network';
 import { Uploader } from '@/components';
-import { Edit, Warning, Promotion } from '@element-plus/icons-vue';
+import { Edit, Warning, Promotion, Refresh } from '@element-plus/icons-vue';
 import { onMounted, reactive, ref, computed, watch } from 'vue';
-import type { FormInstance } from 'element-plus';
+import { ElMessage, FormInstance } from 'element-plus';
 
 type TBlog = {
 	id: number;
@@ -150,17 +176,22 @@ const pagination = reactive({
 const modify = ref(false);
 const activeKey = ref(-1);
 
-const startEdit = (scope: any) => {
+const handleStartEdit = (scope: any) => {
 	modify.value = true;
 	activeKey.value = scope.$index;
 	renderData.form = scope.row;
 };
 
 // row编辑完成
-const editComplete = () => {
-	modify.value = false;
-	activeKey.value = -1;
-	tableFormRef.value?.resetFields();
+const handleEditEnd = async (scope: { row: TBlog }) => {
+	try {
+		modify.value = false;
+		activeKey.value = -1;
+		await modifyRow({ ...scope.row, ...renderData.form });
+		// 重置表单
+		tableFormRef.value?.resetFields();
+		ElMessage.success('修改完成！');
+	} catch (err) {}
 };
 
 const handleUploadComplete = () => {
@@ -239,10 +270,6 @@ onMounted(() => {
 		text-align: right;
 	}
 
-	.row-active {
-		background: #f00;
-	}
-
 	.table-actions {
 		display: flex;
 		align-items: center;
@@ -263,6 +290,18 @@ onMounted(() => {
 
 		.icon {
 			color: var(--el-color-primary);
+		}
+	}
+
+	.form-item-content {
+		width: 100%;
+		display: flex;
+	}
+
+	// row-active在子组件（element-plus）中渲染，所以不在scoped的生效范围，使用深层选择器
+	:deep {
+		.row-active {
+			background: var(--el-color-primary-light-7);
 		}
 	}
 }

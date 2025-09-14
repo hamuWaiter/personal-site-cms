@@ -4,11 +4,11 @@
 	</div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style>
 .appView {
+	box-sizing: border-box;
 	color: #333;
 	padding: 20px;
 }

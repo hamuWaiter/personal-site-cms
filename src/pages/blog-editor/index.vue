@@ -57,7 +57,7 @@ const init = async () => {
 		editorData.value.html = html;
 		editorData.value.markdown = markdown;
 	} else if (url) {
-		editorData.value = await axios.post('/common/markdown2html', { url });
+		editorData.value = await axios.post('/common/getMarkdownContent', { url });
 	}
 };
 
