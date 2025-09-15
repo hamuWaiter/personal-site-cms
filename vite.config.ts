@@ -79,9 +79,9 @@ export default defineConfig(({ mode }) => {
 						switch (true) {
 							// 排除'md-editor-v3/lib/style.css', 'md-editor-v3/lib/preview.css','element-plus/dist/index.css'打包（cdn引入）
 							// 		ps：此处的排除仍然会输出css，但是不会在打包的index.html中引入
-							// case /element-plus.*\.css$/.test(id):
-							// case /md-editor-v3.*\.css$/.test(id):
-							// 	return;
+							case /element-plus.*\.css$/.test(id):
+							case /md-editor-v3.*\.css$/.test(id):
+								return;
 							default:
 								// 将不会经常变动的三方包打入vendor避免修改业务代码用户重新请求这部分静态内容
 								// if (id.includes('node_modules')) {

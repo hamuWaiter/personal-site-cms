@@ -28,7 +28,7 @@ export const watchImagesIntersecting = (images: NodeListOf<HTMLImageElement>) =>
 };
 
 // 监听含data-src的img，添加observer来替换src为真实地址实现懒加载，查找不到（dom未挂载完成）会重试
-export const lazyLoadImagesWithRetry = (maxRetries = 3, delay = 100): void => {
+export const lazyLoadImagesWithRetry = (maxRetries = 5, delay = 100): void => {
 	let retries = 0;
 
 	const tryLoadImages = () => {
