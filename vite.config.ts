@@ -72,38 +72,31 @@ export default defineConfig(({ mode }) => {
 			},
 			rollupOptions: {
 				output: {
+					experimentalMinChunkSize: 20 * 1024,
 					chunkFileNames: 'assets/js/[name]-[hash].js', // 引入文件名的名称
 					entryFileNames: 'assets/js/[name]-[hash].js', // 包的入口文件名称
 					assetFileNames: 'assets/[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
 					manualChunks(id) {
-						switch (true) {
-							// 排除'md-editor-v3/lib/style.css', 'md-editor-v3/lib/preview.css','element-plus/dist/index.css'打包（cdn引入）
-							// 		ps：此处的排除仍然会输出css，但是不会在打包的index.html中引入
-							case /element-plus.*\.css$/.test(id):
-							case /md-editor-v3.*\.css$/.test(id):
-								return;
-							default:
-								// 将不会经常变动的三方包打入vendor避免修改业务代码用户重新请求这部分静态内容
-								// if (id.includes('node_modules')) {
-								// 	return 'vendor';
-								// }
-								try {
-									if (id.includes('node_modules')) {
-										const name = id.split('node_modules/')[1].split('/');
-										if (name[0] == '.pnpm') {
-											return name[1];
-										} else {
-											return name[0];
-										}
-									}
-								} catch (error) {
-									return 'vendor';
+						// 将不会经常变动的三方包打入vendor避免修改业务代码用户重新请求这部分静态内容
+						// if (id.includes('node_modules')) {
+						// 	return 'vendor';
+						// }
+						try {
+							if (id.includes('node_modules')) {
+								const name = id.split('node_modules/')[1].split('/');
+								if (name[0] == '.pnpm') {
+									return name[1];
+								} else {
+									return name[0];
 								}
+							}
+						} catch (error) {
+							return 'vendor';
 						}
 					}
 				},
 				// 排除js中对这些包的引入，使用CDN方式引入
-				external: ['vue', 'vue-router', 'dayjs', 'axios', 'md-editor-v3', 'element-plus']
+				external: ['vue', 'vue-router', 'dayjs', 'axios', /^md-editor-v3/, /^element-plus/]
 			}
 		},
 		server: {

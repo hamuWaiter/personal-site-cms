@@ -1,1 +1,0 @@
-declare module 'lazy-load-plugin';

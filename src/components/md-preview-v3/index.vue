@@ -9,7 +9,15 @@
 import { onMounted, ref, nextTick } from 'vue';
 import { MdPreview, MdCatalog } from 'md-editor-v3';
 import { lazyLoadImagesWithRetry, QSMYSleep } from '@/utils';
-import 'md-editor-v3/lib/preview.css';
+
+// 只在开发环境引入样式，生产环境由CDN引入
+if (import.meta.env.DEV) {
+	try {
+		import('md-editor-v3/lib/preview.css');
+	} catch (e) {
+		console.error('md-editor-v3 样式引入失败');
+	}
+}
 
 const props = defineProps({
 	markdownContent: {

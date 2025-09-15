@@ -5,8 +5,16 @@
 <script setup>
 import { effect, ref } from 'vue';
 import { MdEditor } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
 import { uploadFiles } from '@/utils';
+
+// 只在开发环境引入样式，生产环境由CDN引入
+if (import.meta.env.DEV) {
+	try {
+		import('md-editor-v3/lib/style.css');
+	} catch (e) {
+		console.error('md-editor-v3 样式引入失败');
+	}
+}
 
 const emits = defineEmits(['save']);
 const props = defineProps({
