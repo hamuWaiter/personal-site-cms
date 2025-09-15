@@ -10,9 +10,9 @@ import { lazyLoadPlugin } from '@/plugins';
 // md开启浏览器懒加载模块（需要浏览器支持img标签loading="lazy"）
 // img最终会渲染成类似：<img src="example.png" alt="" title="image title" loading="lazy">
 config({
-	markdownItConfig: (mdIt) => {
+	markdownItConfig: mdIt => {
 		mdIt.use(lazyLoadPlugin);
-	},
+	}
 });
 
 // import dotenv from 'dotenv';

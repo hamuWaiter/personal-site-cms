@@ -5,58 +5,60 @@ import Admin from '../cms/index.vue';
 import { Home } from '../frontend/pages';
 import { Blog, BlogEditor } from '../pages';
 import { Blogs, Sites } from '../cms/pages';
+import { NotFound } from '@/components';
 
 const routes = [
-  // 前端系列页面
-  {
-    path: '/',
-    component: FrontEnd,
-    redirect: 'home',
-    children: [
-      {
-        path: 'home',
-        component: Home
-      },
-    ]
-  },
+	// 前端系列页面
+	{
+		path: '/',
+		component: FrontEnd,
+		redirect: 'home',
+		children: [
+			{
+				path: 'home',
+				component: Home
+			}
+		]
+	},
 
-  // 博客内容页
-  {
-    path: '/blog/:id',
-    component: Blog
-  },
-  {
-    path: '/blog/:id/edit',
-    component: BlogEditor
-  },
-  {
-    path: '/blog/new',
-    component: BlogEditor
-  },
+	// 博客内容页
+	{
+		path: '/blog/:id',
+		component: Blog
+	},
+	{
+		path: '/blog/:id/edit',
+		component: BlogEditor
+	},
+	{
+		path: '/blog/new',
+		component: BlogEditor
+	},
 
-  // 管理端系列页面
-  {
-    path: '/admin',
-    component: Admin,
-    redirect: '/admin/blogs',
-    children: [
-      {
-        path: 'sites',
-        component: Sites
-      },
-      {
-        path: 'blogs',
-        component: Blogs
-      },
-    ]
-  },
-  { path: '/:catchAll(.*)', component: h('span', "什么都没找到0_0") },
-]
+	// 管理端系列页面
+	{
+		path: '/admin',
+		component: Admin,
+		redirect: '/admin/blogs',
+		children: [
+			{
+				path: 'sites',
+				component: Sites
+			},
+			{
+				path: 'blogs',
+				component: Blogs
+			}
+		]
+	},
+	// { path: '/:catchAll(.*)', component: h('span', "什么都没找到0_0") },
+	{ path: '/:catchAll(.*)', component: NotFound }
+];
 
 const router = createRouter({
-  history: createWebHistory(),
-  // @ts-ignore
-  routes,
-})
+	history: createWebHistory(),
+	// @ts-ignore
+	routes
+});
 
 export default router;
