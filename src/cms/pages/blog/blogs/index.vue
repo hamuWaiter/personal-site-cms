@@ -55,12 +55,13 @@
 						<div class="table-actions">
 							<el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}/edit`)">编辑</el-button>
 							<!-- <el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}`)">预览</el-button> -->
-							<template v-if="scope.row.isDelete">
-								<el-button link type="primary" size="small" @click.prevent="modifyRow({ ...scope.row, isDelete: false })">发布</el-button>
+							<template v-if="scope.row.isPublish">
+								<el-button link type="danger" size="small" @click.prevent="modifyRow({ ...scope.row, isPublish: false })">撤回</el-button>
 							</template>
 							<template v-else>
-								<el-button link type="danger" size="small" @click.prevent="modifyRow({ ...scope.row, isDelete: true })">撤回</el-button>
+								<el-button link type="primary" size="small" @click.prevent="modifyRow({ ...scope.row, isPublish: true })">发布</el-button>
 							</template>
+							<el-button link type="danger" size="small" @click.prevent="modifyRow({ ...scope.row, isDelete: true })">删除</el-button>
 							<!-- <el-button link type="primary" size="small" @click.prevent="() => $router.push(`/blog/${scope.row.id}/edit`)">置顶</el-button> -->
 						</div>
 					</template>
@@ -143,6 +144,7 @@ type TBlog = {
 	html: string;
 	markdown: string;
 	isDelete: boolean;
+	isPublish: boolean;
 	createTime: string;
 	updateTime: string;
 };
@@ -207,7 +209,7 @@ const handleNewItem = async () => {
 		if (valid) {
 			await axios.post('/blog', {
 				...renderData.form,
-				isDelete: true
+				isPublish: false
 			});
 			formDialogVisible.value = false;
 			dialogFormRef.value?.resetFields();
@@ -220,7 +222,9 @@ const handleNewItem = async () => {
 };
 
 const modifyRow = async (row: any) => {
-	await axios.post(`/blog/${row.id}`, row);
+	const { id, ...rest } = row;
+
+	await axios.post(`/blog/${id}`, rest);
 	await init();
 };
 

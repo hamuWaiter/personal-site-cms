@@ -67,17 +67,18 @@ if (id.value !== 'new') init();
 // 新增
 const handleNewBlog = async () => {
 	try {
-		const { id } = await axios.post('/blog', {
+		const { id: blogId } = await axios.post('/blog', {
 			url: '',
 			title: title.value,
 			html: editorData.value.html,
 			markdown: editorData.value.markdown,
-			isDelete: true
+			isPublish: false
 		});
 
-		id.value = id;
+		id.value = blogId;
 		ElMessage.success('保存成功');
 	} catch (err) {
+		console.log(err);
 		ElMessage.error('保存失败，请稍后重试');
 	}
 };
@@ -90,7 +91,7 @@ const handleSave = async res => {
 	}
 
 	try {
-		const data = await axios.post(`/blog/${id.value}`, {
+		await axios.post(`/blog/${id.value}`, {
 			html: res.html,
 			markdown: res.markdown
 		});
